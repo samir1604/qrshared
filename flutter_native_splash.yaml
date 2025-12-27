@@ -1,0 +1,13 @@
+flutter_native_splash:
+  color: "#00529B"
+  image: assets/images/splash_logo.png
+  android_gravity: center
+  ios_content_mode: center
+
+  android_12:
+    # Este es el ajuste clave para Android 12+
+    icon_background_color: "#00529B"
+    # Por defecto es 108dp, puedes intentar ajustarlo si la versión del paquete lo permite
+    # aunque lo más efectivo es lo siguiente:
+
+  web: false
