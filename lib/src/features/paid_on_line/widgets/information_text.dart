@@ -12,10 +12,13 @@ class InformationText extends StatelessWidget {
       color: Colors.black.withValues(alpha: .6),
       borderRadius: BorderRadius.circular(12),
     ),
-    child: Text(
-      text,
-      textAlign: TextAlign.center,
-      style: const TextStyle(color: Colors.white),
+    child: FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(color: Colors.white),
+      ),
     ),
   );
 }
