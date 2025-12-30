@@ -33,6 +33,18 @@ class App extends StatelessWidget {
           ),
         ),
       ),
+      builder: (context, child) {
+        final mediaQueryData = MediaQuery.of(context);
+        return MediaQuery(
+          data: mediaQueryData.copyWith(
+            textScaler: mediaQueryData.textScaler.clamp(
+              minScaleFactor: 1,
+              maxScaleFactor: 1.3,
+            ),
+          ),
+          child: child!,
+        );
+      },
       home: const HomePage(),
     );
   }

@@ -67,16 +67,18 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                 return Stack(
                   children: [
                     Positioned(
-                      top: 20,
+                      top: context.systemTopPadding + context.spacingMedium,
                       left: 20,
                       child: ImageButton(onPressed: _scanFromGallery),
                     ),
                     Positioned(
-                      bottom: 32,
+                      bottom: context.systemTopPadding + context.spacingMedium,
                       left: 24,
                       right: 24,
-                      child: InformationText(
-                        text: StringConstants.scanText,
+                      child: SafeArea(
+                        child: InformationText(
+                          text: StringConstants.scanText,
+                        ),
                       ),
                     ),
                     Positioned(
@@ -102,7 +104,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   }
 
   Future<void> _handleDetection(BarcodeCapture capture) async {
-    if (_isProcessing) return;
+    if (_isProcessing || !mounted) return;
 
     final barcode = capture.barcodes.firstOrNull;
     if (barcode?.rawValue == null) return;
@@ -112,14 +114,16 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
       await Vibration.vibrate(duration: 80);
     }
     await _controller.stop();
+    if (!mounted) return;
 
     final code = barcode!.rawValue!;
     final type = widget.transfer.identifyQR(code);
 
     if (type == QRType.payment) {
       await widget.transfer.sendPayment(code);
-      if (!mounted) return;
-      Navigator.of(context).pop();
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     } else if (type == QRType.transfer) {
       if (!mounted) return;
       await Navigator.pushReplacement(
@@ -157,14 +161,16 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_cachedScanRect == null) {
-      final appBarHeight = AppBar().preferredSize.height;
-      _cachedScanRect = Rect.fromCenter(
+    final visorSize = (context.effectiveWidth * .7).clamp(200.0, 280.0);
+    final appBarHeight = AppBar().preferredSize.height;
+
+    setState(
+      () => _cachedScanRect = Rect.fromCenter(
         center: context.getCenterOfBody(appBarHeight),
-        width: 260,
-        height: 260,
-      );
-    }
+        width: visorSize,
+        height: visorSize,
+      ),
+    );
   }
 
   @override
