@@ -41,6 +41,9 @@ dependencies:
   get_it: ^9.2.0
   flutter_launcher_icons: ^0.14.4
   url_launcher: ^6.3.2
+  device_info_plus: ^12.3.0
+  flutter_image_compress: ^2.4.0
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_test:

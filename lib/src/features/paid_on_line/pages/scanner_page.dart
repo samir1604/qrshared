@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr_shared_app/src/core/constants/constants.dart';
 import 'package:qr_shared_app/src/core/extensions/extensions.dart';
 import 'package:qr_shared_app/src/core/injector.dart';
@@ -149,13 +152,39 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
 
     if (image == null) return;
 
-    final barCode = await _controller.analyzeImage(image.path);
+    try {
+      final deviceInfo = DeviceInfoPlugin();
+      final androidInfo = await deviceInfo.androidInfo;
+      final model = androidInfo.model.toUpperCase();
+      final isNote10 = model.contains('MK2101K7') || model.contains('NOTE 10');
+      var pathToAnalyze = image.path;
 
-    if (barCode != null) {
-      await _handleDetection(barCode);
-      return;
+      if (isNote10) {
+        final tempDir = await getTemporaryDirectory();
+        final targetPath =
+            '${tempDir.path}/fixed_note10_${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+        final fixedImage = await FlutterImageCompress.compressAndGetFile(
+          image.path,
+          targetPath,
+          quality: 100,
+        );
+
+        if (fixedImage != null) {
+          pathToAnalyze = fixedImage.path;
+        }
+      }
+
+      final barCode = await _controller.analyzeImage(pathToAnalyze);
+
+      if (barCode != null) {
+        await _handleDetection(barCode);
+      } else {
+        SnackbarService.show(StringConstants.notFoundQr);
+      }
+    } on Exception catch (_) {
+      SnackbarService.show('Error procesando imagen');
     }
-    SnackbarService.show(StringConstants.notFoundQr);
   }
 
   @override
