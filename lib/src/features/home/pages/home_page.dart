@@ -14,6 +14,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final size = MediaQuery.of(context).size;
+    final imageWidth = context.isSmallWidth
+        ? context.getSize.width * .5
+        : context.getSize.width * .7;
 
     return Scaffold(
       body: Stack(
@@ -37,12 +40,11 @@ class HomePage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        width: context.isSmallWidth
-                            ? context.getSize.width * .5
-                            : context.getSize.width * .7,
-                        child: Image.asset(AssetConstants.logo),
+                      Image.asset(
+                        AssetConstants.logo,
+                        width: imageWidth,
+                        cacheWidth: (imageWidth * context.devicePixelRatio)
+                            .toInt(),
                       ),
                       SizedBox(height: context.spacingMedium),
                       Padding(
