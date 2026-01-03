@@ -26,6 +26,8 @@ extension BuildcontextExtension on BuildContext {
 
   double get spacingLarge => isSmallWidth ? 16.0 : 32.0;
 
+  double get devicePixelRatio => MediaQuery.devicePixelRatioOf(this);
+
   // Visual Center considering system elementes
   Offset getCenterOfBody(double appBarHeight) {
     final availableHeight =
