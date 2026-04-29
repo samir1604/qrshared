@@ -27,12 +27,14 @@ class ScannerPage extends StatefulWidget {
 class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   late final MobileScannerController _controller;
   bool _isProcessing = false;
-  Rect? _cachedScanRect;
+  //Rect? _cachedScanRect;
 
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addObserver(this);
+
     _controller = MobileScannerController(
       formats: [BarcodeFormat.qrCode],
     );
@@ -40,65 +42,71 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final scanRect = _cachedScanRect ?? Rect.zero;
+    //final scanRect = _cachedScanRect ?? Rect.zero;
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(title: Text(StringConstants.scannerPageTitle)),
-      body: Stack(
-        children: [
-          MobileScanner(
-            scanWindow: scanRect,
-            controller: _controller,
-            onDetect: _handleDetection,
-          ),
-          IgnorePointer(
-            child: Stack(children: [ScannerOverlay(scanRect: scanRect)]),
-          ),
-          RepaintBoundary(
-            child: ValueListenableBuilder(
-              valueListenable: _controller,
-              builder: (context, state, child) {
-                final isReady = state.isInitialized || state.isRunning;
-                final isTouchUnavailable =
-                    state.torchState == TorchState.unavailable;
-                final isTorchOn = state.torchState == TorchState.on;
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final scanRect = calculateRec(context, constraints);
 
-                return Stack(
-                  children: [
-                    Positioned(
-                      top: context.systemTopPadding + context.spacingMedium,
-                      left: 20,
-                      child: ImageButton(onPressed: _scanFromGallery),
-                    ),
-                    Positioned(
-                      bottom: context.systemTopPadding + context.spacingMedium,
-                      left: 24,
-                      right: 24,
-                      child: SafeArea(
-                        child: InformationText(
-                          text: StringConstants.scanText,
+          return Stack(
+            children: [
+              MobileScanner(
+                scanWindow: scanRect,
+                controller: _controller,
+                onDetect: _handleDetection,
+              ),
+              IgnorePointer(
+                child: Stack(children: [ScannerOverlay(scanRect: scanRect)]),
+              ),
+              RepaintBoundary(
+                child: ValueListenableBuilder(
+                  valueListenable: _controller,
+                  builder: (context, state, child) {
+                    final isReady = state.isInitialized || state.isRunning;
+                    final isTouchUnavailable =
+                        state.torchState == TorchState.unavailable;
+                    final isTorchOn = state.torchState == TorchState.on;
+                    return Stack(
+                      children: [
+                        Positioned(
+                          top: context.systemTopPadding + context.spacingMedium,
+                          left: 20,
+                          child: ImageButton(onPressed: _scanFromGallery),
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 20,
-                      right: 20,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black.withValues(alpha: .5),
-                        child: TorchButton(
-                          isOn: isTouchUnavailable ? null : isTorchOn,
-                          onPressed: () => _controller.toggleTorch(),
+                        Positioned(
+                          bottom:
+                              context.systemTopPadding + context.spacingMedium,
+                          left: 24,
+                          right: 24,
+                          child: SafeArea(
+                            child: InformationText(
+                              text: StringConstants.scanText,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    if (!isReady) const LoadingIndicator(),
-                  ],
-                );
-              },
-            ),
-          ),
-        ],
+                        Positioned(
+                          top: 20,
+                          right: 20,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.black.withValues(alpha: .5),
+                            child: TorchButton(
+                              isOn: isTouchUnavailable ? null : isTorchOn,
+                              onPressed: () => _controller.toggleTorch(),
+                            ),
+                          ),
+                        ),
+                        if (!isReady) const LoadingIndicator(),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -114,6 +122,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
       await Vibration.vibrate(duration: 80);
     }
     await _controller.stop();
+
     if (!mounted) return;
 
     final code = barcode!.rawValue!;
@@ -158,19 +167,17 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     SnackbarService.show(StringConstants.notFoundQr);
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final visorSize = (context.effectiveWidth * .7).clamp(200.0, 280.0);
-    final appBarHeight = AppBar().preferredSize.height;
-
-    setState(
-      () => _cachedScanRect = Rect.fromCenter(
-        center: context.getCenterOfBody(appBarHeight),
-        width: visorSize,
-        height: visorSize,
-      ),
+  Rect calculateRec(BuildContext context, BoxConstraints constraints) {
+    final visorSize = (constraints.biggest.shortestSide * .6).clamp(
+      200.0,
+      280.0,
     );
+
+    final center = Offset(
+      constraints.maxWidth / 2,
+      (constraints.maxHeight - context.systemBottomPadding) / 2,
+    );
+    return Rect.fromCenter(center: center, width: visorSize, height: visorSize);
   }
 
   @override

@@ -30,8 +30,9 @@ extension BuildcontextExtension on BuildContext {
 
   // Visual Center considering system elementes
   Offset getCenterOfBody(double appBarHeight) {
+    final topOffset = appBarHeight + systemTopPadding;
     final availableHeight =
-        getSize.height - appBarHeight - systemTopPadding - systemBottomPadding;
-    return Offset(getSize.width / 2, availableHeight / 2);
+        getSize.height - topOffset - systemBottomPadding;
+    return Offset(getSize.width / 2, topOffset + (availableHeight / 2));
   }
 }
