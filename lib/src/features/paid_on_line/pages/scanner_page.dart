@@ -7,11 +7,8 @@ import 'package:qr_shared_app/src/core/constants/constants.dart';
 import 'package:qr_shared_app/src/core/extensions/extensions.dart';
 import 'package:qr_shared_app/src/core/injector.dart';
 import 'package:qr_shared_app/src/core/services/services.dart';
-import 'package:qr_shared_app/src/features/paid_on_line/widgets/image_button.dart';
-import 'package:qr_shared_app/src/features/paid_on_line/widgets/information_text.dart';
-import 'package:qr_shared_app/src/features/paid_on_line/widgets/loading_indicator.dart';
-import 'package:qr_shared_app/src/features/paid_on_line/widgets/scanner_overlay.dart';
-import 'package:qr_shared_app/src/features/paid_on_line/widgets/torch_button.dart';
+import 'package:qr_shared_app/src/features/paid_on_line/paid_on_line.dart';
+
 import 'package:qr_shared_app/src/features/transfer/pages/transfer_page.dart';
 import 'package:vibration/vibration.dart';
 
@@ -27,7 +24,7 @@ class ScannerPage extends StatefulWidget {
 class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   late final MobileScannerController _controller;
   bool _isProcessing = false;
-  //Rect? _cachedScanRect;
+  String? _cameraErrorMessage;
 
   @override
   void initState() {
@@ -42,8 +39,6 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    //final scanRect = _cachedScanRect ?? Rect.zero;
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(title: Text(StringConstants.scannerPageTitle)),
@@ -51,6 +46,30 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
         builder: (context, constraints) {
           final scanRect = calculateRec(context, constraints);
 
+          return ValueListenableBuilder(
+            valueListenable: _controller,
+            builder: (context, state, child) {
+              return MobileScanner(
+                scanWindow: scanRect,
+                controller: _controller,
+                onDetect: _handleDetection,
+                errorBuilder: (context, scannerError) {
+                  var msg =
+                      scannerError.errorDetails?.message ?? 'Error de camara';
+
+                  if (!_controller.value.hasCameraPermission) {
+                    msg = 'Otorgue permiso a la camra para continuar';
+                  }
+
+                  return CameraError(
+                    message: msg,
+                    onPressed: () => _controller.start(),
+                  );
+                },
+              );
+            },
+          );
+          /*
           return Stack(
             children: [
               MobileScanner(
@@ -106,6 +125,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
               ),
             ],
           );
+            */
         },
       ),
     );

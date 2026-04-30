@@ -10,7 +10,7 @@ class TorchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isOn == null) {
       return const IconButton(
-        icon: const Icon(Icons.no_flash_outlined, color: Colors.grey),
+        icon: Icon(Icons.no_flash_outlined, color: Colors.grey),
         onPressed: null,
       );
     }

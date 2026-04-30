@@ -34,5 +34,6 @@ class StringConstants {
   static String phoneName = 'Teléfono';
   static String phoneNumber = 'Número de Teléfono / Beneficiario';
   static String openTransfermovil = 'ABRIR TRANSFERMÓVIL';
+  static String tryAgain = 'Intentar de nuevo';
 
 }
