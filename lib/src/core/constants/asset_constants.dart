@@ -9,4 +9,5 @@ class AssetConstants {
   static String logo = 'assets/images/logo.png';
   static String splashLogo = 'assets/images/splash_logo.png';
   static String cameraError = 'assets/images/camera_error.png';
+  static String qrBadCode = 'assets/images/bad_code.png';
 }

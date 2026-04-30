@@ -36,4 +36,8 @@ class StringConstants {
   static String openTransfermovil = 'ABRIR TRANSFERMÓVIL';
   static String tryAgain = 'Intentar de nuevo';
 
+  static String cameraPermissionError =
+      'Se requiere acceso a la cámara para escanear. Por favor, habilita los permisos.';
+  static String cameraAccessError =
+      'No se pudo acceder a la cámara. Puede que esté en uso por otra aplicación o no esté disponible.';
 }

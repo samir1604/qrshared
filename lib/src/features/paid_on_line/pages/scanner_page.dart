@@ -24,7 +24,8 @@ class ScannerPage extends StatefulWidget {
 class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   late final MobileScannerController _controller;
   bool _isProcessing = false;
-  String? _cameraErrorMessage;
+  String? _qrErrorMessage;
+  StreamSubscription<Object>? _subscription;
 
   @override
   void initState() {
@@ -34,98 +35,71 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
 
     _controller = MobileScannerController(
       formats: [BarcodeFormat.qrCode],
+      autoStart: false,
     );
+
+    _subscription = _controller.barcodes.listen(_handleDetection);
+    unawaited(_controller.start());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(title: Text(StringConstants.scannerPageTitle)),
+      appBar: AppBar(
+        title: Text(StringConstants.scannerPageTitle),
+        backgroundColor: Colors.blue.shade900,
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final scanRect = calculateRec(context, constraints);
+          final scanRect = _calculateRec(context, constraints);
 
           return ValueListenableBuilder(
             valueListenable: _controller,
             builder: (context, state, child) {
-              return MobileScanner(
-                scanWindow: scanRect,
-                controller: _controller,
-                onDetect: _handleDetection,
-                errorBuilder: (context, scannerError) {
-                  var msg =
-                      scannerError.errorDetails?.message ?? 'Error de camara';
+              if (_qrErrorMessage != null) {
+                return ScannerError(
+                  message: _qrErrorMessage!,
+                  onPressed: _resetForNewScan,
+                );
+              }
 
-                  if (!_controller.value.hasCameraPermission) {
-                    msg = 'Otorgue permiso a la camra para continuar';
-                  }
+              return Stack(
+                children: [
+                  MobileScanner(
+                    scanWindow: scanRect,
+                    controller: _controller,
+                    errorBuilder: (context, scannerError) {
+                      final message = !state.hasCameraPermission
+                          ? StringConstants.cameraPermissionError
+                          : StringConstants.cameraAccessError;
 
-                  return CameraError(
-                    message: msg,
-                    onPressed: () => _controller.start(),
-                  );
-                },
+                      return ScannerError(
+                        message: message,
+                        isCameraError: true,
+                        onPressed: () => _controller.start(),
+                      );
+                    },
+                  ),
+                  if (state.error == null)
+                    IgnorePointer(
+                      child: Stack(
+                        children: [ScannerOverlay(scanRect: scanRect)],
+                      ),
+                    ),
+                  if (state.error == null)
+                    RepaintBoundary(
+                      child: ScannerControls(
+                        isTorchOn: _controller.torchEnabled,
+                        onTorchClick: () => _controller.toggleTorch(),
+                        onGalleryClick: _scanFromGallery,
+                      ),
+                    ),
+                  if (!state.isInitialized) const LoadingIndicator(),
+                ],
               );
             },
           );
-          /*
-          return Stack(
-            children: [
-              MobileScanner(
-                scanWindow: scanRect,
-                controller: _controller,
-                onDetect: _handleDetection,
-              ),
-              IgnorePointer(
-                child: Stack(children: [ScannerOverlay(scanRect: scanRect)]),
-              ),
-              RepaintBoundary(
-                child: ValueListenableBuilder(
-                  valueListenable: _controller,
-                  builder: (context, state, child) {
-                    final isReady = state.isInitialized || state.isRunning;
-                    final isTouchUnavailable =
-                        state.torchState == TorchState.unavailable;
-                    final isTorchOn = state.torchState == TorchState.on;
-                    return Stack(
-                      children: [
-                        Positioned(
-                          top: context.systemTopPadding + context.spacingMedium,
-                          left: 20,
-                          child: ImageButton(onPressed: _scanFromGallery),
-                        ),
-                        Positioned(
-                          bottom:
-                              context.systemTopPadding + context.spacingMedium,
-                          left: 24,
-                          right: 24,
-                          child: SafeArea(
-                            child: InformationText(
-                              text: StringConstants.scanText,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 20,
-                          right: 20,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.black.withValues(alpha: .5),
-                            child: TorchButton(
-                              isOn: isTouchUnavailable ? null : isTorchOn,
-                              onPressed: () => _controller.toggleTorch(),
-                            ),
-                          ),
-                        ),
-                        if (!isReady) const LoadingIndicator(),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ],
-          );
-            */
         },
       ),
     );
@@ -164,12 +138,19 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
           ),
         ),
       );
+    } else {
+      setState(() {
+        _qrErrorMessage = 'Código QR no válido o no soportado.';
+      });
     }
+  }
 
-    if (mounted) {
+  void _resetForNewScan() {
+    setState(() {
+      _qrErrorMessage = null;
       _isProcessing = false;
-      await _controller.start();
-    }
+    });
+    unawaited(_controller.start());
   }
 
   Future<void> _scanFromGallery() async {
@@ -187,7 +168,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     SnackbarService.show(StringConstants.notFoundQr);
   }
 
-  Rect calculateRec(BuildContext context, BoxConstraints constraints) {
+  Rect _calculateRec(BuildContext context, BoxConstraints constraints) {
     final visorSize = (constraints.biggest.shortestSide * .6).clamp(
       200.0,
       280.0,
@@ -209,24 +190,26 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
 
     switch (state) {
       case AppLifecycleState.resumed:
-        if (!_controller.value.isRunning) {
-          await _controller.start();
-        }
-        return;
-      case AppLifecycleState.inactive:
+        _subscription = _controller.barcodes.listen(_handleDetection);
+        unawaited(_controller.start());
+
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
       case AppLifecycleState.hidden:
-        if (_controller.value.isRunning) {
-          await _controller.stop();
-        }
         return;
+
+      case AppLifecycleState.inactive:
+        unawaited(_subscription?.cancel());
+        _subscription = null;
+        unawaited(_controller.stop());
     }
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    unawaited(_subscription?.cancel());
+    _subscription = null;
     unawaited(_controller.dispose());
     super.dispose();
   }
