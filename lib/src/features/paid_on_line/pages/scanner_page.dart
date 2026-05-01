@@ -90,7 +90,9 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                   if (state.error == null)
                     RepaintBoundary(
                       child: ScannerControls(
-                        isTorchOn: _controller.torchEnabled,
+                        isTorchOn: state.torchState == TorchState.unavailable
+                            ? null
+                            : state.torchState == TorchState.on,
                         onTorchClick: () => _controller.toggleTorch(),
                         onGalleryClick: _scanFromGallery,
                       ),
