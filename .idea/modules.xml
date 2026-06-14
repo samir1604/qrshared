@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/qr_shared_app.iml" filepath="$PROJECT_DIR$/qr_shared_app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/qr_shared_app_android.iml" filepath="$PROJECT_DIR$/android/qr_shared_app_android.iml" />
     </modules>
   </component>
 </project>
