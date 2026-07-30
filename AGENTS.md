@@ -66,7 +66,7 @@ Resolve variables bounded by `[...]` dynamically. Load context via `@` reference
 5. **Output**: Deliver final implementation. Zero explanatory bloat.
 
 ## 7. DATA, STORAGE & NETWORKING
-- **Local Storage**: Use `hive` (or `hive_ce`) for all local persistent storage. Ideal for fast synchronous reads and filtering small datasets in memory.
+- **Local Storage**: Use `hive_ce` (and `hive_ce_flutter`) for all local persistent storage. Ideal for fast synchronous reads and filtering small datasets in memory.
 - **Networking**: Skip (No API consumption in this project).
 
 ## 8. ERROR HANDLING & LOGGING
