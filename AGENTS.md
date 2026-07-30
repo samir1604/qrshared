@@ -94,3 +94,17 @@ The agent MUST actively use the installed skills located in `.agents/skills/` to
 - **Modern Dart**: Use `dart-use-pattern-matching`, `dart-use-primary-constructors`, and `dart-migrate-to-checks-package` for modern Dart 3 paradigms.
 - **Debugging**: Use `dart-fix-runtime-errors` to troubleshoot active stack traces.
 - Note: Skills such as `dart-build-cli-app` and `dart-setup-ffi-assets` exist for potential long-term use but are typically ignored for standard Flutter app development.
+
+## Agent skills
+
+### Issue tracker
+
+Issues are tracked locally as markdown files under `.scratch/`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Using the default triage labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context repo structure. See `docs/agents/domain.md`.
