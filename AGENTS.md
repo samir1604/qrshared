@@ -86,3 +86,11 @@ Within each feature directory (`lib/src/features/[feature_name]/`), enforce stri
 ## 11. TESTING FRAMEWORKS
 - **Unit Testing (Mocks)**: Use `mocktail` for creating mock objects since it requires less boilerplate and no code generation.
 - **E2E Testing**: Use `patrol` for End-to-End and Integration tests. This is mandatory for handling native OS dialogs (like Camera permissions for the QR Scanner).
+
+## 12. AGENT SKILLS
+The agent MUST actively use the installed skills located in `.agents/skills/` to standardize workflows:
+- **Testing & Mocks**: Use `dart-generate-test-mocks` for creating `mocktail` mocks, `dart-add-unit-test` for writing tests, and `dart-collect-coverage` for evaluating coverage.
+- **Analysis & Formatting**: Use `dart-run-static-analysis` for strict `flutter analyze` and formatting.
+- **Modern Dart**: Use `dart-use-pattern-matching`, `dart-use-primary-constructors`, and `dart-migrate-to-checks-package` for modern Dart 3 paradigms.
+- **Debugging**: Use `dart-fix-runtime-errors` to troubleshoot active stack traces.
+- Note: Skills such as `dart-build-cli-app` and `dart-setup-ffi-assets` exist for potential long-term use but are typically ignored for standard Flutter app development.
