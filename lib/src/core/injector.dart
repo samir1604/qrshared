@@ -15,5 +15,8 @@ void configureDependencies() {
     )
     ..registerLazySingleton(() => GetSavedDestinations(di()))
     ..registerLazySingleton(() => SaveDestination(di()))
-    ..registerLazySingleton(() => DeleteDestination(di()));
+    ..registerLazySingleton(() => DeleteDestination(di()))
+    ..registerLazySingleton(
+      () => SavedDestinationsController(di(), di(), di()),
+    );
 }

@@ -4,7 +4,7 @@ import 'package:qr_shared_app/src/core/domain/use_cases/use_case.dart';
 import 'package:qr_shared_app/src/features/saved_destinations/domain/repositories/saved_destination_repository.dart';
 
 class DeleteDestination implements UseCase<Unit, String> {
-  DeleteDestination(this._repository);
+  const DeleteDestination(this._repository);
   final SavedDestinationRepository _repository;
 
   @override

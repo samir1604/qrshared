@@ -5,7 +5,7 @@ import 'package:qr_shared_app/src/features/saved_destinations/domain/entities/sa
 import 'package:qr_shared_app/src/features/saved_destinations/domain/repositories/saved_destination_repository.dart';
 
 class SaveDestination implements UseCase<Unit, SavedDestination> {
-  SaveDestination(this._repository);
+  const SaveDestination(this._repository);
   final SavedDestinationRepository _repository;
 
   @override

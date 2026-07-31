@@ -5,3 +5,4 @@ export 'domain/repositories/saved_destination_repository.dart';
 export 'domain/use_cases/delete_destination.dart';
 export 'domain/use_cases/get_saved_destinations.dart';
 export 'domain/use_cases/save_destination.dart';
+export 'presentation/controllers/saved_destinations_controller.dart';
