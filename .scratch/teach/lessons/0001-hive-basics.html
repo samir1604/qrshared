@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lección 1: ¿Cómo funciona Hive y sus Adaptadores?</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 20px; color: #333; }
+        h1, h2 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; color: #d35400; }
+        .highlight { background-color: #eaf2f8; padding: 15px; border-left: 4px solid #3498db; margin-bottom: 20px; border-radius: 0 4px 4px 0; }
+        ul, ol { margin-bottom: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>¿Cómo funciona Hive?</h1>
+    <div class="highlight">
+        <p><strong>Hive</strong> es una base de datos NoSQL ultrarrápida y ligera para Flutter. A diferencia de SQLite, no usa tablas ni SQL; guarda los datos como diccionarios (clave-valor) en contenedores llamados <strong>"Cajas" (Boxes)</strong>.</p>
+    </div>
+
+    <h2>¿Qué es un Adapter (Adaptador)?</h2>
+    <p>Hive entiende por defecto tipos primitivos como <code>String</code>, <code>int</code>, <code>bool</code> y <code>List</code>. Sin embargo, no sabe qué hacer con objetos complejos creados por ti, como <code>SavedDestination</code> o <code>QRType</code>.</p>
+    <p>Un <strong>Adapter</strong> es simplemente un traductor. Le enseña a Hive cómo convertir tu objeto complejo en un formato binario que pueda guardar rápidamente en el almacenamiento del teléfono, y cómo hacer el proceso inverso (leer del disco y reconstruir el objeto en la memoria de Dart).</p>
+
+    <h2>¿Por qué configurar un enum (QRType) como Adapter?</h2>
+    <p>En Dart, un <code>enum</code> no es un tipo primitivo simple a los ojos de Hive. Si intentas guardar <code>QRType.transfer</code> directamente, la aplicación fallará porque Hive no sabe cómo "serializar" ese estado.</p>
+    <p>Al crear un <code>QRTypeAdapter</code> (usando las anotaciones <code>@HiveType</code> y <code>@HiveField</code>), le decimos a Hive:</p>
+    <ul>
+        <li>Guarda <code>QRType.payment</code> como el número <code>0</code>.</li>
+        <li>Guarda <code>QRType.transfer</code> como el número <code>1</code>.</li>
+    </ul>
+    <p>Así, cuando guardamos un <code>SavedDestination</code> que incluye un <code>QRType</code>, Hive ya sabe exactamente cómo traducirlo a un número para guardarlo en el disco de manera eficiente.</p>
+
+    <h2>Panorama General (El Flujo Completo)</h2>
+    <ol>
+        <li><strong>Definición:</strong> Anotamos nuestras clases (<code>SavedDestination</code>) y enums (<code>QRType</code>) con <code>@HiveType</code>.</li>
+        <li><strong>Generación:</strong> El comando <code>build_runner</code> lee esas anotaciones y escribe el código aburrido del "traductor" por nosotros (los archivos que terminan en <code>.g.dart</code>).</li>
+        <li><strong>Registro:</strong> Al iniciar la app en <code>main.dart</code>, le presentamos estos traductores a Hive con <code>Hive.registerAdapter(...)</code>.</li>
+        <li><strong>Uso:</strong> Abrimos una "caja" (<code>Hive.openBox('saved_destinations')</code>) y a partir de ahí podemos guardar, leer y borrar nuestros objetos. Hive usará los traductores registrados automáticamente en segundo plano sin que nos preocupemos más.</li>
+    </ol>
+</body>
+</html>

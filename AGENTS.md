@@ -78,10 +78,15 @@ Resolve variables bounded by `[...]` dynamically. Load context via `@` reference
 - **i18n**: The app is single-language (Spanish) for now. Hardcoded strings (e.g., `Text('Hola')`) are allowed to speed up development.
 
 ## 10. FEATURE-FIRST ARCHITECTURE INTERNALS
-Within each feature directory (`lib/src/features/[feature_name]/`), enforce strict separation:
-- `/presentation`: Widgets, UI layout, and state controllers.
-- `/domain`: Business logic, models/entities, and repository interfaces.
-- `/data`: Implementations of repositories, Hive data sources, and DTOs.
+Within each feature directory (`lib/src/features/[feature_name]/`), enforce strict Clean Architecture separation following SOLID principles:
+- `/presentation`: Widgets, UI layout, and state controllers (ViewModels/Signals).
+- `/domain`: Pure business logic, independent of any external framework. Must contain:
+  - `/entities`: Pure Dart models.
+  - `/repositories`: Abstract repository interfaces.
+  - `/use_cases`: Application business rules (SRP - Single Responsibility Principle).
+- `/data`: Infrastructure details (APIs, Databases). Must contain:
+  - `/models`: DTOs and Hive models (with from/to entity extension mappers).
+  - `/repositories`: Implementations of domain repository interfaces.
 
 ## 11. TESTING FRAMEWORKS
 - **Unit Testing (Mocks)**: Use `mocktail` for creating mock objects since it requires less boilerplate and no code generation.

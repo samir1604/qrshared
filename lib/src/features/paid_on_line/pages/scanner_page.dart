@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_shared_app/src/core/constants/constants.dart';
+import 'package:qr_shared_app/src/core/domain/entities/qr_type.dart';
 import 'package:qr_shared_app/src/core/extensions/extensions.dart';
 import 'package:qr_shared_app/src/core/injector.dart';
 import 'package:qr_shared_app/src/core/services/services.dart';

@@ -1,6 +1,5 @@
 import 'package:android_intent_plus/android_intent.dart';
-
-enum QRType { payment, transfer, unknown }
+import 'package:qr_shared_app/src/core/domain/entities/qr_type.dart';
 
 abstract interface class TransferService {
   QRType identifyQR(String rawValue);
