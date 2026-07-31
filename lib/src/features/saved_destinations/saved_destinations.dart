@@ -6,3 +6,5 @@ export 'domain/use_cases/delete_destination.dart';
 export 'domain/use_cases/get_saved_destinations.dart';
 export 'domain/use_cases/save_destination.dart';
 export 'presentation/controllers/saved_destinations_controller.dart';
+export 'presentation/pages/saved_destinations_page.dart';
+export 'presentation/widgets/saved_destinations_list.dart';

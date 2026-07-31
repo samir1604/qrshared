@@ -168,7 +168,8 @@ linter:
 ### State Management & Dependency Injection
 * **Signals:** Use `signals` (and `signals_flutter`) exclusively for all reactive state management. **Do NOT** use `Provider`, `ChangeNotifier`, `ValueNotifier`, `Bloc`, or `Riverpod`.
 * **Explicit Signal Types:** Always explicitly define the type of a Signal variable (e.g., `final FlutterSignal<String> mySignal = signal('');`) to satisfy type inference lints.
-* **UI Reactivity:** In the presentation layer, use `watch(context)` to reactively listen to Signals within the `build` method.
+* **UI Reactivity:** In the presentation layer, use the `SignalBuilder` widget from `signals_flutter` to reactively listen to Signals, as `watch(context)` and `Watch` are deprecated.
+* **Widget Extraction:** NEVER create helper methods that return a widget and take `BuildContext` as a parameter (e.g., `Widget _buildRow(BuildContext context)`). Always extract them into their own separate, stateless/stateful widget classes. Place reusable widgets in a `presentation/widgets/` directory.
 * **Controllers:** Group business logic and Signals into controllers (e.g., `CardController`) that live in the `/presentation` or `/domain` layers.
 * **Dependency Injection (DI):** Use `get_it` for dependency injection. Register your controllers, services, and repositories as singletons or factories in `get_it`.
 * **MVVM / Controllers:** Structure the app using controllers to separate UI from logic. The UI only watches the signals exposed by the controllers.
