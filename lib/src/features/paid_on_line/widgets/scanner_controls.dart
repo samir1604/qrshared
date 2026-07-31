@@ -9,11 +9,15 @@ class ScannerControls extends StatelessWidget {
     this.isTorchOn,
     this.onGalleryClick,
     this.onTorchClick,
+    this.isSaveDestinationOn = false,
+    this.onSaveDestinationToggle,
   });
 
   final bool? isTorchOn;
   final VoidCallback? onGalleryClick;
   final VoidCallback? onTorchClick;
+  final bool isSaveDestinationOn;
+  final ValueChanged<bool>? onSaveDestinationToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +33,35 @@ class ScannerControls extends StatelessWidget {
           left: 24,
           right: 24,
           child: SafeArea(
-            child: InformationText(
-              text: StringConstants.scanText,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (onSaveDestinationToggle != null) ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Guardar destino',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Switch(
+                        value: isSaveDestinationOn,
+                        onChanged: onSaveDestinationToggle,
+                        activeThumbColor: Colors.blue.shade300,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                InformationText(
+                  text: StringConstants.scanText,
+                ),
+              ],
             ),
           ),
         ),

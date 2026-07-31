@@ -1,7 +1,7 @@
 # 05 - UX Organic Save
 
 Type: task
-Status: open
+Status: closed
 Blocked by: 03
 
 ## Question

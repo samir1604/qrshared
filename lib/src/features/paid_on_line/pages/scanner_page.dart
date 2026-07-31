@@ -9,7 +9,7 @@ import 'package:qr_shared_app/src/core/extensions/extensions.dart';
 import 'package:qr_shared_app/src/core/injector.dart';
 import 'package:qr_shared_app/src/core/services/services.dart';
 import 'package:qr_shared_app/src/features/paid_on_line/paid_on_line.dart';
-
+import 'package:qr_shared_app/src/features/saved_destinations/saved_destinations.dart';
 import 'package:qr_shared_app/src/features/transfer/pages/transfer_page.dart';
 import 'package:vibration/vibration.dart';
 
@@ -25,6 +25,7 @@ class ScannerPage extends StatefulWidget {
 class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   late final MobileScannerController _controller;
   bool _isProcessing = false;
+  bool _saveDestination = false;
   String? _qrErrorMessage;
   StreamSubscription<Object>? _subscription;
 
@@ -96,6 +97,12 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                             : state.torchState == TorchState.on,
                         onTorchClick: () => _controller.toggleTorch(),
                         onGalleryClick: _scanFromGallery,
+                        isSaveDestinationOn: _saveDestination,
+                        onSaveDestinationToggle: (val) {
+                          setState(() {
+                            _saveDestination = val;
+                          });
+                        },
                       ),
                     ),
                   if (!state.isInitialized) const LoadingIndicator(),
@@ -124,6 +131,20 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
 
     final code = barcode!.rawValue!;
     final type = widget.transfer.identifyQR(code);
+
+    if (_saveDestination) {
+      final controller = di<SavedDestinationsController>();
+      final destination = SavedDestination(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: type == QRType.payment
+            ? 'Pago Guardado'
+            : 'Transferencia Guardada',
+        type: type,
+        rawQrData: code,
+        createdAt: DateTime.now(),
+      );
+      unawaited(controller.save(destination));
+    }
 
     if (type == QRType.payment) {
       await widget.transfer.sendPayment(code);
