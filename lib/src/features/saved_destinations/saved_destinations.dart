@@ -1,0 +1,7 @@
+export 'data/models/saved_destination_hive_model.dart';
+export 'data/repositories/saved_destination_repository_impl.dart';
+export 'domain/entities/saved_destination.dart';
+export 'domain/repositories/saved_destination_repository.dart';
+export 'domain/use_cases/delete_destination.dart';
+export 'domain/use_cases/get_saved_destinations.dart';
+export 'domain/use_cases/save_destination.dart';

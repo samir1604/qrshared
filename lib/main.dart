@@ -4,7 +4,7 @@ import 'package:qr_shared_app/src/app.dart';
 import 'package:qr_shared_app/src/core/injector.dart';
 
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:qr_shared_app/src/features/saved_destinations/data/models/saved_destination_hive_model.dart';
+import 'package:qr_shared_app/src/features/saved_destinations/saved_destinations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

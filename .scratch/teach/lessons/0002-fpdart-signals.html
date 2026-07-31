@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lección 2: ¿Por qué fpdart + Signals?</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <h1>El matrimonio perfecto: fpdart y Signals</h1>
+    
+    <div class="highlight">
+        <p><strong>Mito común:</strong> "fpdart es solo para Riverpod".</p>
+        <p><strong>Realidad:</strong> fpdart es una librería de Programación Funcional pura. No sabe absolutamente nada sobre el UI, Flutter o el manejo de estado. Su único trabajo es <strong>controlar el flujo de datos y los errores matemáticamente</strong>.</p>
+    </div>
+
+    <h2>Separación de Responsabilidades</h2>
+    <p>Para entender por qué se complementan tan bien, hay que ver qué hace cada uno:</p>
+    <ul>
+        <li><strong>fpdart (Capa de Dominio/Datos):</strong> Atrapa las excepciones feas y las convierte en valores seguros. En lugar de hacer un <code>try/catch</code> que pueda explotar la app, usas <code>Either&lt;Error, Exito&gt;</code>.</li>
+        <li><strong>Signals (Capa de Presentación):</strong> Toma los valores seguros y los muestra reactivamente en la pantalla.</li>
+    </ul>
+
+    <h2>¿Cómo se ven trabajando juntos?</h2>
+    <p>Imagina un Caso de Uso que busca destinos. Con <code>fpdart</code>, el caso de uso <strong>garantiza</strong> que nunca lanzará una excepción; siempre devolverá una respuesta controlada (Izquierda = Error, Derecha = Lista de Destinos):</p>
+    
+    <pre><code>// 1. Dominio (fpdart)
+Future&lt;Either&lt;Failure, List&lt;SavedDestination&gt;&gt;&gt; getDestinations() async {
+  try {
+    final data = repository.getAll();
+    return Right(data); // Todo salió bien
+  } catch (e) {
+    return Left(DatabaseFailure('Error leyendo Hive')); // Hubo un error controlado
+  }
+}</code></pre>
+
+    <p>Ahora, en tu Controlador (ViewModel), <code>Signals</code> reacciona a este resultado de forma ultra-limpia sin ensuciar la UI con bloques <code>try/catch</code>:</p>
+
+    <pre><code>// 2. Presentación (Signals + fpdart)
+class DestinationController {
+  final state = signal&lt;AsyncState&lt;List&lt;SavedDestination&gt;&gt;&gt;(AsyncLoading());
+
+  Future&lt;void&gt; load() async {
+    final result = await getDestinationsUseCase();
+    
+    // fpdart nos regala el método .fold() para manejar ambos casos obligatoriamente
+    result.fold(
+      (failure) => state.value = AsyncError(failure.message),
+      (data) => state.value = AsyncData(data),
+    );
+  }
+}</code></pre>
+
+    <div class="note">
+        <strong>¿Por qué le sacamos buen provecho?</strong>
+        <p>Porque Signals es extremadamente simple y reactivo, pero no tiene un sistema robusto de tipado de errores nativo. <code>fpdart</code> suple esa carencia. <code>fpdart</code> obliga al programador (en tiempo de compilación) a manejar tanto el caso de éxito como el de error antes de actualizar el <code>Signal</code>. <strong>Es arquitectura a prueba de balas.</strong></p>
+    </div>
+
+    <p><em>¿Tienes alguna pregunta sobre el método <code>fold</code> o sobre cómo implementaremos esto en el Ticket 03? ¡Pregúntaselo a tu agente!</em></p>
+</body>
+</html>

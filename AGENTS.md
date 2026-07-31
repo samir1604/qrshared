@@ -59,7 +59,7 @@ Resolve variables bounded by `[...]` dynamically. Load context via `@` reference
 - **@file:analysis_options.yaml**: Reference project-specific strict linting rules.
 
 ## 6. DETERMINISTIC IMPLEMENTATION PROTOCOL
-1. **Grounding**: Read target files and resolve contextual `@` pointers.
+1. **Grounding**: **CRITICAL FIRST STEP**: Read and strictly adhere to `@file:docs/guidelines.md` and `@file:docs/requirements.md` before writing any code. Resolve contextual `@` pointers.
 2. **Dependency Check**: Validate `@file:pubspec.yaml` alignment.
 3. **Drafting**: Write composable, null-safe Dart code (composition > inheritance).
 4. **Verification**: Execute strict `flutter analyze` and `flutter test`.

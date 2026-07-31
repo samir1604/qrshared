@@ -84,6 +84,7 @@ mobile platforms.
 ## Dart Best Practices
 * **Effective Dart:** Follow the official Effective Dart guidelines
   (https://dart.dev/effective-dart)
+* **Constructors First:** Always declare constructors before other class members (fields, properties, methods) to satisfy the `sort_constructors_first` lint rule.
 * **Class Organization:** Define related classes within the same library file.
   For large libraries, export smaller, private libraries from a single top-level
   library.
@@ -107,7 +108,7 @@ mobile platforms.
   expressions, which don't require `break` statements.
 * **Exception Handling:** Use `try-catch` blocks for handling exceptions, and
   use exceptions appropriate for the type of exception. Use custom exceptions
-  for situations specific to your code.
+  for situations specific to your code. Always use an `on` clause (e.g., `on Exception catch (e)`) to avoid catching `Error` objects that represent unrecoverable programmer errors, satisfying the `avoid_catches_without_on_clauses` lint rule.
 * **Arrow Functions:** Use arrow syntax for simple one-line functions.
 
 ## Flutter Best Practices
@@ -147,6 +148,7 @@ When building reusable APIs, such as a library, follow these principles.
 * **Feature-based Organization:** For larger projects, organize code by feature,
   where each feature has its own presentation, domain, and data subfolders. This
   improves navigability and scalability.
+* **Barrel Files:** For features or modules, export all necessary files from a single barrel file located at the root of the feature folder. The barrel file must be named exactly the same as the folder name (e.g., `lib/src/features/my_feature/my_feature.dart`). This keeps imports clean across the app.
 
 ## Lint Rules
 
