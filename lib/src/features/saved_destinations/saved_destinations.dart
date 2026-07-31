@@ -7,4 +7,6 @@ export 'domain/use_cases/get_saved_destinations.dart';
 export 'domain/use_cases/save_destination.dart';
 export 'presentation/controllers/saved_destinations_controller.dart';
 export 'presentation/pages/saved_destinations_page.dart';
+export 'presentation/widgets/add_destination_options_sheet.dart';
+export 'presentation/widgets/add_manual_destination_dialog.dart';
 export 'presentation/widgets/saved_destinations_list.dart';

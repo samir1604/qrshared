@@ -46,6 +46,15 @@ class SavedDestinationsPage extends StatelessWidget {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet<void>(
+            context: context,
+            builder: (_) => const AddDestinationOptionsSheet(),
+          ).ignore();
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
