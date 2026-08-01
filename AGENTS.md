@@ -9,6 +9,7 @@
 - **Zero-Secret Policy**: Never read, output, or commit API keys, tokens, or credentials.
 - **Git Authorship**: AI agents MUST NOT be listed as git authors or co-authors. Human authorship is strictly required.
 - **Deterministic Execution**: Execute local compilation, analysis, and testing workflows before proposing changes.
+- **Dependency Management**: NEVER downgrade any package version without asking the user first and providing a clear technical reason.
 
 ## 2. TECH STACK & ARCHITECTURE (2026)
 | Layer | Technology |
@@ -22,6 +23,7 @@
 
 ## 3. STRICT COMMAND EXECUTIONS
 Execute exactly as defined. No syntactical shortcuts or missing flags permitted.
+**CRITICAL FVM RULE**: If the project has a `.fvm` directory, you MUST prefix ALL `flutter` and `dart` commands with `fvm` (e.g., `fvm flutter test`, `fvm dart run ...`, `fvm flutter pub get`).
 
 ```bash
 # Dependency synchronization
