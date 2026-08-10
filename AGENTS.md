@@ -56,6 +56,7 @@ dart run script/tool/bin/flutter_plugin_tools.dart analyze --packages=[TARGET_PA
 Resolve variables bounded by `[...]` dynamically. Load context via `@` references only when immediately required.
 
 - **@file:docs/guidelines.md**: Comprehensive rules and coding guidelines for this project.
+- **@file:docs/signals.md**: Comprehensive guide and reference for using Signals for state management in this project.
 - **@directory:docs**: Architecture templates, design documents, and ADRs.
 - **@file:pubspec.yaml**: Validate current dependencies before proposing additions.
 - **@file:analysis_options.yaml**: Reference project-specific strict linting rules.
@@ -97,6 +98,7 @@ Within each feature directory (`lib/src/features/[feature_name]/`), enforce stri
 ## 12. AGENT SKILLS
 The agent MUST actively use the installed skills located in `.agents/skills/` to standardize workflows:
 - **Testing & Mocks**: Use `dart-generate-test-mocks` for creating `mocktail` mocks, `dart-add-unit-test` for writing tests, and `dart-collect-coverage` for evaluating coverage.
+- **State Management (Signals)**: Use `signals-dart`, `signals-flutter`, `signals-hooks`, `signals-lint`, `signals-migration-6-to-7`, `signals-preact-dart`, and `signals_hooks` for reactive programming and UI bindings.
 - **Analysis & Formatting**: Use `dart-run-static-analysis` for strict `flutter analyze` and formatting.
 - **Modern Dart**: Use `dart-use-pattern-matching`, `dart-use-primary-constructors`, and `dart-migrate-to-checks-package` for modern Dart 3 paradigms.
 - **Debugging**: Use `dart-fix-runtime-errors` to troubleshoot active stack traces.

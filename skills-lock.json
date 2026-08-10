@@ -169,6 +169,42 @@
       "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
       "computedHash": "569299a60c8e93880f3b3c1eca55578f58f7e1a4155876edb4cb814da3d6b3ea"
     },
+    "increase-coverage": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/increase-coverage/SKILL.md",
+      "computedHash": "d96159115230c15e168a1d3ec03a84b222a525f0508a2886332b9f30efe2b050"
+    },
+    "jaspr-convert-html": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/jaspr-convert-html/SKILL.md",
+      "computedHash": "3b8cc676dcb189117e5e7477d35d0ee1ee144de9a334144238689c21042d5d15"
+    },
+    "jaspr-fundamentals": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/jaspr-fundamentals/SKILL.md",
+      "computedHash": "b335648804b200d80af03141f0558c1ea511a67be26722454a6566dfb2423c1a"
+    },
+    "jaspr-js-interop": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/jaspr-js-interop/SKILL.md",
+      "computedHash": "0841bdd17d84e1b32a210134d49c729386bd92b306562ff8a7c30b614629b89d"
+    },
+    "jaspr-pre-rendering-and-hydration": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/jaspr-pre-rendering-and-hydration/SKILL.md",
+      "computedHash": "ef49b8e35cba4b685bc676db30652c2716c4043ae9249d3b696f523dee4069a2"
+    },
+    "jaspr-styling": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/jaspr-styling/SKILL.md",
+      "computedHash": "eacee45b16bcb6ccdf478df7aef3ff74203c20c48dfb42409151b184bb9d5ab5"
+    },
     "loop-me": {
       "source": "mattpocock/skills",
       "sourceType": "github",
@@ -241,6 +277,48 @@
       "skillPath": "skills/in-progress/setup-ts-deep-modules/SKILL.md",
       "computedHash": "6dbd0830059a887ca6206dfa8c24baf7e28be7321471d2b899887fff9b77e34f"
     },
+    "signals-dart": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": "skills/signals-dart/SKILL.md",
+      "computedHash": "171ac03e0aed54efefb54f61b25ab00fc56bf3a1c731a2cf0c6985d10bc7242b"
+    },
+    "signals-flutter": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": "skills/signals-flutter/SKILL.md",
+      "computedHash": "abc2b7b5d5e4d8fb85d447c732aed28bc802e78540291389847feb7eb02809ba"
+    },
+    "signals-hooks": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": "skills/signals-hooks/SKILL.md",
+      "computedHash": "b5f52d8027dc1d7c7c53e219f05f66b669c43cce85a8742e8222996077c413cd"
+    },
+    "signals-lint": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": "skills/signals-lint/SKILL.md",
+      "computedHash": "52411b0f322539e301047812fb7f0b95ab33fcd9060e4ba84a0041a692023487"
+    },
+    "signals-migration-6-to-7": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": "skills/signals-migration-6-to-7/SKILL.md",
+      "computedHash": "ec853648469fed1d2e97be18f6ce4fecb80c7c0961ddce619784553375f2824c"
+    },
+    "signals-preact-dart": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": "skills/signals-preact-dart/SKILL.md",
+      "computedHash": "fa6e058b1853b4b191f8ada093490978312fa1b08f4ddc449654038811c9f75b"
+    },
+    "signals_hooks": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/signals_hooks/SKILL.md",
+      "computedHash": "8da947894ad43d15d47022278513b6f03a30f83b89fe862b41645b74b569233d"
+    },
     "tdd": {
       "source": "mattpocock/skills",
       "sourceType": "github",
@@ -282,6 +360,24 @@
       "sourceType": "github",
       "skillPath": "skills/deprecated/ubiquitous-language/SKILL.md",
       "computedHash": "36cde503a83a11b0fdcc76646a9922ab1c0fb0b6305cc5c08e492a0113c5cb3d"
+    },
+    "update-docs-workflow": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/update-docs-workflow/SKILL.md",
+      "computedHash": "babb4d9a28e8b56ef30cc19f1a8572827c868b39bc1f2cdbe17da591a715b842"
+    },
+    "update-examples-dependencies": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/update-examples-dependencies/SKILL.md",
+      "computedHash": "029dca76518446f724ab2cac0de8aacb7dc1af78b7216e97afbf2f3136ba120b"
+    },
+    "update-preact": {
+      "source": "rodydavis/signals.dart",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/update-preact/SKILL.md",
+      "computedHash": "6dfb6c3e18aa23c28869e7e507cd57bff6c795e77bfc8409cc34b2f4b2876ebd"
     },
     "wayfinder": {
       "source": "mattpocock/skills",
