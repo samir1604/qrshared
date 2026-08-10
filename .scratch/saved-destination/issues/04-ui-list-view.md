@@ -1,7 +1,7 @@
 # 04 - UI List View
 
 Type: task
-Status: open
+Status: closed
 Blocked by: 03
 
 ## Question

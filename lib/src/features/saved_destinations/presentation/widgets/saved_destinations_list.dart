@@ -57,7 +57,13 @@ class SavedDestinationsList extends StatelessWidget {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   onPressed: () {
-                    // Lógica para editar (próximamente)
+                    showDialog<void>(
+                      context: context,
+                      builder: (_) => EditDestinationDialog(
+                        destination: destination,
+                        controller: controller,
+                      ),
+                    ).ignore();
                   },
                 ),
                 IconButton(
