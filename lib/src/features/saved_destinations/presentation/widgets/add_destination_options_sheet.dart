@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:qr_shared_app/src/core/injector.dart';
+import 'package:qr_shared_app/src/features/paid_on_line/pages/scanner_page.dart';
 import 'package:qr_shared_app/src/features/saved_destinations/saved_destinations.dart';
 
 class AddDestinationOptionsSheet extends StatelessWidget {
@@ -15,7 +17,12 @@ class AddDestinationOptionsSheet extends StatelessWidget {
             title: const Text('Escanear código QR'),
             onTap: () {
               Navigator.pop(context);
-              // Lógica de escaneo (próximamente)
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (context) => ScannerPage(transfer: di()),
+                ),
+              );
             },
           ),
           ListTile(

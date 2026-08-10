@@ -1,7 +1,7 @@
 # 06 - UX Explicit Management FAB
 
 Type: task
-Status: open
+Status: closed
 Blocked by: 04
 
 ## Question
