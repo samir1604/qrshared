@@ -6,8 +6,12 @@ import 'package:qr_shared_app/src/core/domain/entities/qr_type.dart';
 import 'package:qr_shared_app/src/features/saved_destinations/saved_destinations.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 
-class MockGetSavedDestinations extends Mock implements UseCase<List<SavedDestination>, NoParams> {}
-class MockSaveDestination extends Mock implements UseCase<Unit, SavedDestination> {}
+class MockGetSavedDestinations extends Mock
+    implements UseCase<List<SavedDestination>, NoParams> {}
+
+class MockSaveDestination extends Mock
+    implements UseCase<Unit, SavedDestination> {}
+
 class MockDeleteDestination extends Mock implements UseCase<Unit, String> {}
 
 void main() {
@@ -36,8 +40,9 @@ void main() {
       mockDeleteDestination = MockDeleteDestination();
 
       // Configure default success response for loading destinations
-      when(() => mockGetDestinations(any()))
-          .thenAnswer((_) async => const Right([]));
+      when(
+        () => mockGetDestinations(any()),
+      ).thenAnswer((_) async => const Right([]));
 
       // We instantiate the controller here. The constructor automatically calls loadDestinations()
       controller = SavedDestinationsController(
@@ -51,13 +56,17 @@ void main() {
       // Allow the async constructor loading to finish
       await Future.delayed(Duration.zero);
 
-      expect(controller.destinations.value, isA<AsyncData<List<SavedDestination>>>());
+      expect(
+        controller.destinations.value,
+        isA<AsyncData<List<SavedDestination>>>(),
+      );
       verify(() => mockGetDestinations(any())).called(1);
     });
 
     test('save() calls save usecase and reloads destinations', () async {
-      when(() => mockSaveDestination(any()))
-          .thenAnswer((_) async => const Right(unit));
+      when(
+        () => mockSaveDestination(any()),
+      ).thenAnswer((_) async => const Right(unit));
 
       await controller.save(dummyDestination);
 
@@ -67,8 +76,9 @@ void main() {
     });
 
     test('delete() calls delete usecase and reloads destinations', () async {
-      when(() => mockDeleteDestination(any()))
-          .thenAnswer((_) async => const Right(unit));
+      when(
+        () => mockDeleteDestination(any()),
+      ).thenAnswer((_) async => const Right(unit));
 
       await controller.delete('1');
 

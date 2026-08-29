@@ -31,7 +31,8 @@ class Contact extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Text(StringConstants.contactText,
+        Text(
+          StringConstants.contactText,
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.grey.shade700, fontSize: 14),
         ),

@@ -24,8 +24,9 @@ class _EditDestinationDialogState extends State<EditDestinationDialog> {
   void initState() {
     super.initState();
     _aliasController = TextEditingController(text: widget.destination.alias);
-    _observationController =
-        TextEditingController(text: widget.destination.observation);
+    _observationController = TextEditingController(
+      text: widget.destination.observation,
+    );
   }
 
   @override

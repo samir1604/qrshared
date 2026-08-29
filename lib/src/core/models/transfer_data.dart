@@ -1,5 +1,3 @@
-
-
 import 'package:qr_shared_app/src/core/constants/constants.dart';
 
 enum BankType { bandec, bpa, metropolitan, unknow }

@@ -8,7 +8,8 @@ import 'package:qr_shared_app/src/features/saved_destinations/domain/entities/sa
 import 'package:qr_shared_app/src/features/saved_destinations/domain/repositories/saved_destination_repository.dart';
 import 'package:qr_shared_app/src/features/saved_destinations/domain/use_cases/get_saved_destinations.dart';
 
-class MockSavedDestinationRepository extends Mock implements SavedDestinationRepository {}
+class MockSavedDestinationRepository extends Mock
+    implements SavedDestinationRepository {}
 
 void main() {
   late GetSavedDestinations useCase;
@@ -26,16 +27,16 @@ void main() {
       type: QRType.payment,
       rawQrData: 'data',
       createdAt: DateTime.now(),
-    )
+    ),
   ];
 
   test('should get destinations from the repository', () {
     // arrange
     when(() => mockRepository.getAllDestinations()).thenReturn(tDestinations);
-    
+
     // act
     final result = useCase(const NoParams());
-    
+
     // assert
     expect(result.isRight(), true);
     result.fold(
@@ -48,11 +49,13 @@ void main() {
 
   test('should return DatabaseFailure when repository throws an exception', () {
     // arrange
-    when(() => mockRepository.getAllDestinations()).thenThrow(Exception('test exception'));
-    
+    when(
+      () => mockRepository.getAllDestinations(),
+    ).thenThrow(Exception('test exception'));
+
     // act
     final result = useCase(const NoParams());
-    
+
     // assert
     expect(result.isLeft(), true);
     result.fold(

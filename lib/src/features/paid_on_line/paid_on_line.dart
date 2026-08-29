@@ -9,5 +9,3 @@ export './widgets/loading_indicator.dart';
 export './widgets/scanner_controls.dart';
 export './widgets/scanner_overlay.dart';
 export './widgets/torch_button.dart';
-
-

@@ -42,7 +42,8 @@ class SavedDestination extends Equatable {
       type: type ?? this.type,
       rawQrData: rawQrData ?? this.rawQrData,
       phone: phone ?? this.phone,
-      accountOrProviderNumber: accountOrProviderNumber ?? this.accountOrProviderNumber,
+      accountOrProviderNumber:
+          accountOrProviderNumber ?? this.accountOrProviderNumber,
       observation: observation ?? this.observation,
       createdAt: createdAt ?? this.createdAt,
     );
@@ -50,14 +51,14 @@ class SavedDestination extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        alias,
-        type,
-        rawQrData,
-        phone,
-        accountOrProviderNumber,
-        observation,
-        createdAt,
-      ];
+    id,
+    name,
+    alias,
+    type,
+    rawQrData,
+    phone,
+    accountOrProviderNumber,
+    observation,
+    createdAt,
+  ];
 }
